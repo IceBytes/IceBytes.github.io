@@ -4,33 +4,34 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Sandy Documentation</title>
+    <title>sandy Documentation</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.3.1/styles/atom-one-dark.min.css" rel="stylesheet">
     <style>
         body {
-            background-color: #1e1e1e;
-            color: #ddd;
-            font-family: Arial, sans-serif;
+            background-color: #282c34;
+            color: #abb2bf;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
             margin: 0;
             padding: 20px;
             line-height: 1.6;
         }
 
         h1 {
-            color: #f0f0f0;
-            border-bottom: 1px solid #444;
+            color: #61afef;
+            border-bottom: 1px solid #444c56;
             padding-bottom: 10px;
         }
 
         code {
-            background-color: #333;
-            color: #f0f0f0;
+            background-color: #3e4451;
+            color: #abb2bf;
             padding: 2px 4px;
             border-radius: 3px;
         }
 
         pre {
-            background-color: #333;
-            color: #f0f0f0;
+            background-color: #3e4451;
+            color: #abb2bf;
             padding: 10px;
             border-radius: 5px;
             overflow-x: auto;
@@ -38,17 +39,17 @@
 
         .route-section {
             margin-top: 20px;
-            border: 1px solid #444;
+            border: 1px solid #444c56;
             padding: 10px;
             border-radius: 5px;
         }
 
         .response-ok {
-            color: #00ff00;
+            color: #98c379;
         }
 
         .response-err {
-            color: #ff0000;
+            color: #e06c75;
         }
     </style>
 </head>
@@ -58,81 +59,126 @@
 
     <div class="route-section">
         <h2>Server Usage</h2>
-        <pre><code class="rust">use sandy::Server;</code></pre>
-        <pre><code class="rust">let mut server = Server::new();</code></pre>
+        <pre><code class="rust">use sandy::Server;
+
+let mut server = Server::new();
+</code></pre>
 
         <h2>Server run</h2>
-        <pre><code class="rust">let ip = "127.0.0.1";</code></pre>
-        <pre><code class="rust">let port = "8080";</code></pre>
-        <pre><code class="rust">server.run(ip, port);</code></pre>
+        <pre><code class="rust">let ip = "127.0.0.1";
+let port = "8080";
+server.run(ip, port);
+</code></pre>
 
         <h2>Routing</h2>
-        <pre><code class="rust">server.route("/", |path, params, method, data| {</code></pre>
-        <pre><code class="rust">    Ok("HTTP/1.1 200 OK\n\nHello, sandy".to_string())</code></pre>
-        <pre><code class="rust">});</code></pre>
+        <pre><code class="rust">server.route("/", |path, params, method, data| {
+    Ok("HTTP/1.1 200 OK\n\nHello, sandy".to_string())
+});
+</code></pre>
 
         <h2>Handling Different HTTP Request Types</h2>
         <h3>GET Request</h3>
-        <pre><code class="rust">server.route("/get", |_, params, method, _| {</code></pre>
-        <pre><code class="rust">    if method == "GET" {</code></pre>
-        <pre><code class="rust">        let v = params.get("param").map_or_else(|| "".to_string(), |x| x.to_string());</code></pre>
-        <pre><code class="rust">        Ok(format!("HTTP/1.1 200 OK\n\n{}", v))</code></pre>
-        <pre><code class="rust">    } else {</code></pre>
-        <pre><code class="rust">        Err("HTTP/1.1 405 METHOD NOT ALLOWED\n\nMethod Not Allowed".to_string())</code></pre>
-        <pre><code class="rust">    }</code></pre>
-        <pre><code class="rust">});</code></pre>
+        <pre><code class="rust">server.route("/get", |_, params, method, _| {
+    if method == "GET" {
+        let v = params.get("param").map_or_else(|| "".to_string(), |x| x.to_string());
+        Ok(format!("HTTP/1.1 200 OK\n\n{}", v))
+    } else {
+        Err("HTTP/1.1 405 METHOD NOT ALLOWED\n\nMethod Not Allowed".to_string())
+    }
+});
+</code></pre>
 
         <h3>POST Request</h3>
-        <pre><code class="rust">server.route("/post", |_, _, method, data| {</code></pre>
-        <pre><code class="rust">    if method == "POST" {</code></pre>
-        <pre><code class="rust">        let v = data.get("data").map_or_else(|| "".to_string(), |x| x.to_string());</code></pre>
-        <pre><code class="rust">        Ok(format!("HTTP/1.1 200 OK\n\n{}", v))</code></pre>
-        <pre><code class="rust">    } else {</code></pre>
-        <pre><code class="rust">        Err("HTTP/1.1 405 METHOD NOT ALLOWED\n\nMethod Not Allowed".to_string())</code></pre>
-        <pre><code class="rust">    }</code></pre>
+        <pre><code class="rust">server.route("/post", |_, _, method, data| {
+    if method == "POST" {
+        let v = data.get("data").map_or_else(|| "".to_string(), |x| x.to_string());
+        Ok(format!("HTTP/1.1 200 OK\n\n{}", v))
+    } else {
+        Err("HTTP/1.1 405 METHOD NOT ALLOWED\n\nMethod Not Allowed".to_string())
+    }
+});
+</code></pre>
 
         <h2>Template Engine Usage</h2>
-        <pre><code class="rust">use sandy::TemplateEngine;</code></pre>
-        <pre><code class="rust">use std::collections::HashMap;</code></pre>
-        <pre><code class="rust">let mut context = HashMap::new();</code></pre>
-        <pre><code class="rust">context.insert("name", "Just Ice");</code></pre>
-        <pre><code class="rust">let rendered = TemplateEngine::render_template("template.html", &context);</code></pre>
-        <pre><code class="rust">let template = "<p>Hello, {{ name }}!</p>";</code></pre>
-        <pre><code class="rust">let rendered = TemplateEngine::render(template, &context);</code></pre>
+        <pre><code class="rust">use sandy::TemplateEngine;
+use std::collections::HashMap;
+
+let mut context = HashMap::new();
+context.insert("name", "Just Ice");
+
+let rendered = TemplateEngine::render_template("template.html", &context);
+</code></pre>
+
+        <h3>Rendering Templates</h3>
+        <pre><code class="rust">let template = "<p>Hello, {{ name }}!</p>";
+let rendered = TemplateEngine::render(template, &context);
+</code></pre>
 
         <h2>Response</h2>
-        <pre><code class="rust">Ok("HTTP/1.1 200 OK\n\nHello, sandy".to_string())</code></pre>
-        <pre><code class="rust">Err("HTTP/1.1 404 OK\n\nPath Not Found".to_string())</code></pre>
-        <pre><code class="rust">Err("HTTP/1.1 405 METHOD NOT ALLOWED\n\nMethod Not Allowed".to_string())</code></pre>
+        <p>All route handler functions should return a <code>Result&lt;String, String&gt;</code> where <code>Ok</code> represents a successful response and <code>Err</code> represents an error message.</p>
 
         <h2>Full Example</h2>
-        <pre><code class="rust">use sandy::Server;</code></pre>
-        <pre><code class="rust">use sandy::TemplateEngine;</code></pre>
-        <pre><code class="rust">use std::collections::HashMap;</code></pre>
-        <pre><code class="rust">fn main() {</code></pre>
-        <pre><code class="rust">    let mut server = Server::new();</code></pre>
-        <pre><code class="rust">    server.route("/", |_, _, _, _| {</code></pre>
-        <pre><code class="rust">        Ok("HTTP/1.1 200 OK\n\nHello, sandy\n".to_string())</code></pre>
-        <pre><code class="rust">    });</code></pre>
-        <pre><code class="rust">    server.route("/get", |_, params, method, _| {</code></pre>
-        <pre><code class="rust">        if method == "GET" {</code></pre>
-        <pre><code class="rust">            let v = params.get("param").map_or_else(|| "".to_string(), |x| x.to_string());</code></pre>
-        <pre><code class="rust">            Ok(format!("HTTP/1.1 200 OK\n\n{}", v))</code></pre>
-        <pre><code class="rust">        } else {</code></pre>
-        <pre><code class="rust">            Err("HTTP/1.1 405 METHOD NOT ALLOWED\n\nMethod Not Allowed".to_string())</code></pre>
-        <pre><code class="rust">        }</code></pre>
-        <pre><code class="rust">    });</code></pre>
-        <pre><code class="rust">    server.route("/post", |_, _, method, data| {</code></pre>
-        <pre><code class="rust">        if method == "POST" {</code></pre>
-        <pre><code class="rust">            let v = data.get("data").map_or_else(|| "".to_string(), |x| x.to_string());</code></pre>
-        <pre><code class="rust">            Ok(format!("HTTP/1.1 200 OK\n\n{}", v))</code></pre>
-        <pre><code class="rust">        } else {</code></pre>
-        <pre><code class="rust">            Err("HTTP/1.1 405 METHOD NOT ALLOWED\n\nMethod Not Allowed".to_string())</code></pre>
-        <pre><code class="rust">        }</code></pre>
-        <pre><code class="rust">    });</code></pre>
-        <pre><code class="rust">    server.run("0.0.0.0", "8080");</code></pre>
-        <pre><code class="rust">}</code></pre>
+        <pre><code class="rust">use sandy::Server;
+use sandy::TemplateEngine;
+use std::collections::HashMap;
+
+fn main() {
+    let mut server = Server::new();
+
+    server.route("/", |_, _, _, _| {
+        Ok("HTTP/1.1 200 OK\n\nHello, sandy".to_string())
+    });
+
+    server.route("/get", |_, params, method, _| {
+        if method == "GET" {
+            let v = params.get("param").map_or_else(|| "".to_string(), |x| x.to_string());
+            Ok(format!("HTTP/1.1 200 OK\n\n{}", v))
+        } else {
+            Err("HTTP/1.1 405 METHOD NOT ALLOWED\n\nMethod Not Allowed".to_string())
+        }
+    });
+
+    server.route("/post", |_, _, method, data| {
+        if method == "POST" {
+            let v = data.get("data").map_or_else(|| "".to_string(), |x| x.to_string());
+            Ok(format!("HTTP/1.1 200 OK\n\n{}", v))
+        } else {
+            Err("HTTP/1.1 405 METHOD NOT ALLOWED\n\nMethod Not Allowed".to_string())
+        }
+    });
+
+    // all template files write it in "templates" folder
+    server.route("/render_template", |_, _, _, _| {
+        let context: HashMap<_, _> = [("var", "value")].iter().cloned().collect();
+        match TemplateEngine::render_template("template.html", &context) {
+            Ok(rendered) => Ok(format!("HTTP/1.1 200 OK\n\n{}", rendered)),
+            Err(err) => Err(format!("HTTP/1.1 500 Internal Server Error\n\n{}", err)),
+        }
+    });
+
+    server.route("/render", |_, _, _, _| {
+        let context: HashMap<_, _> = [("var", "value")].iter().cloned().collect();
+        let template = "This is a {{ var }} template.";
+        let rendered = TemplateEngine::render(template, &context);
+        Ok(format!("HTTP/1.1 200 OK\n\n{}", rendered))
+    });
+
+    // if you wanna add CSS files to your project, just include those files in your code like you would any other route
+    
+    server.run("0.0.0.0", "8080");
+}
+</code></pre>
     </div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.3.1/highlight.min.js"></script>
+    <script>
+        // Syntax highlighting for Rust code blocks using highlight.js
+        document.addEventListener('DOMContentLoaded', (event) => {
+            document.querySelectorAll('code.rust').forEach((block) => {
+                hljs.highlightBlock(block);
+            });
+        });
+    </script>
 </body>
 
 </html>
