@@ -135,6 +135,7 @@ server.run(ip, port);
 
     <div class="route-section code-section">
         <h2>Template Engine Usage</h2>
+        <h3>Render template Usage</h3>
         <pre><code class="rust">use sandy::TemplateEngine;
 use std::collections::HashMap;
 
@@ -144,6 +145,7 @@ context.insert("name", "Just Ice");
 let rendered = TemplateEngine::render_template("template.html", &context);
 </code><button class="copy-button" onclick="copyCode(this.previousElementSibling)">Copy</button></pre>
 
+        <h3>Render Usage</h3>
         <pre><code class="rust">let template = "<p>Hello, {{ name }}!</p>";
 let rendered = TemplateEngine::render(template, &context);
 </code><button class="copy-button" onclick="copyCode(this.previousElementSibling)">Copy</button></pre>
