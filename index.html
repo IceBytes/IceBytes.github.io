@@ -8,7 +8,7 @@
     <link href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.3.1/styles/atom-one-dark.min.css" rel="stylesheet">
     <style>
         body {
-            background-color: #282c34;
+            background-color: #1e1e1e;
             color: #abb2bf;
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
             margin: 0;
@@ -23,18 +23,39 @@
         }
 
         code {
-            background-color: #3e4451;
+            background-color: #2b2b2b;
             color: #abb2bf;
             padding: 2px 4px;
             border-radius: 3px;
         }
 
         pre {
-            background-color: #3e4451;
+            background-color: #2b2b2b;
             color: #abb2bf;
             padding: 10px;
             border-radius: 5px;
             overflow-x: auto;
+            position: relative;
+        }
+
+        .copy-button {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            padding: 5px 10px;
+            background-color: #444;
+            border: none;
+            color: #abb2bf;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 14px;
+            transition: transform 0.2s ease;
+            opacity: 0;
+        }
+
+        .code-section:hover .copy-button {
+            transform: translateY(-5px);
+            opacity: 1;
         }
 
         .route-section {
@@ -42,6 +63,14 @@
             border: 1px solid #444c56;
             padding: 10px;
             border-radius: 5px;
+            position: relative;
+            margin-bottom: 30px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            transition: box-shadow 0.3s ease;
+        }
+
+        .route-section:hover {
+            box-shadow: 0 8px 12px rgba(0, 0, 0, 0.2);
         }
 
         .response-ok {
@@ -57,27 +86,31 @@
 <body>
     <h1>sandy Documentation</h1>
 
-    <div class="route-section">
+    <div class="route-section code-section">
         <h2>Server Usage</h2>
         <pre><code class="rust">use sandy::Server;
 
 let mut server = Server::new();
-</code></pre>
+</code><button class="copy-button" onclick="copyCode(this.previousElementSibling)">Copy</button></pre>
+    </div>
 
+    <div class="route-section code-section">
         <h2>Server run</h2>
         <pre><code class="rust">let ip = "127.0.0.1";
 let port = "8080";
 server.run(ip, port);
-</code></pre>
+</code><button class="copy-button" onclick="copyCode(this.previousElementSibling)">Copy</button></pre>
+    </div>
 
+    <div class="route-section code-section">
         <h2>Routing</h2>
-        <pre><code class="rust">server.route("/", |path, params, method, data| {
+        <h3>Handling Root Route</h3>
+        <pre><code class="rust">server.route("/", |_, _, _, _| {
     Ok("HTTP/1.1 200 OK\n\nHello, sandy".to_string())
 });
-</code></pre>
+</code><button class="copy-button" onclick="copyCode(this.previousElementSibling)">Copy</button></pre>
 
-        <h2>Handling Different HTTP Request Types</h2>
-        <h3>GET Request</h3>
+        <h3>Handling GET Request</h3>
         <pre><code class="rust">server.route("/get", |_, params, method, _| {
     if method == "GET" {
         let v = params.get("param").map_or_else(|| "".to_string(), |x| x.to_string());
@@ -86,9 +119,9 @@ server.run(ip, port);
         Err("HTTP/1.1 405 METHOD NOT ALLOWED\n\nMethod Not Allowed".to_string())
     }
 });
-</code></pre>
+</code><button class="copy-button" onclick="copyCode(this.previousElementSibling)">Copy</button></pre>
 
-        <h3>POST Request</h3>
+        <h3>Handling POST Request</h3>
         <pre><code class="rust">server.route("/post", |_, _, method, data| {
     if method == "POST" {
         let v = data.get("data").map_or_else(|| "".to_string(), |x| x.to_string());
@@ -97,8 +130,10 @@ server.run(ip, port);
         Err("HTTP/1.1 405 METHOD NOT ALLOWED\n\nMethod Not Allowed".to_string())
     }
 });
-</code></pre>
+</code><button class="copy-button" onclick="copyCode(this.previousElementSibling)">Copy</button></pre>
+    </div>
 
+    <div class="route-section code-section">
         <h2>Template Engine Usage</h2>
         <pre><code class="rust">use sandy::TemplateEngine;
 use std::collections::HashMap;
@@ -107,16 +142,26 @@ let mut context = HashMap::new();
 context.insert("name", "Just Ice");
 
 let rendered = TemplateEngine::render_template("template.html", &context);
-</code></pre>
+</code><button class="copy-button" onclick="copyCode(this.previousElementSibling)">Copy</button></pre>
 
-        <h3>Rendering Templates</h3>
         <pre><code class="rust">let template = "<p>Hello, {{ name }}!</p>";
 let rendered = TemplateEngine::render(template, &context);
-</code></pre>
+</code><button class="copy-button" onclick="copyCode(this.previousElementSibling)">Copy</button></pre>
+    </div>
 
+    <div class="route-section code-section">
         <h2>Response</h2>
-        <p>All route handler functions should return a <code>Result&lt;String, String&gt;</code> where <code>Ok</code> represents a successful response and <code>Err</code> represents an error message.</p>
+        <pre><code class="rust">Ok("HTTP/1.1 200 OK\n\nHello, sandy".to_string())
+</code><button class="copy-button" onclick="copyCode(this.previousElementSibling)">Copy</button></pre>
 
+        <pre><code class="rust">Err("HTTP/1.1 404 OK\n\nPath Not Found".to_string())
+</code><button class="copy-button" onclick="copyCode(this.previousElementSibling)">Copy</button></pre>
+
+        <pre><code class="rust">Err("HTTP/1.1 405 METHOD NOT ALLOWED\n\nMethod Not Allowed".to_string())
+</code><button class="copy-button" onclick="copyCode(this.previousElementSibling)">Copy</button></pre>
+    </div>
+
+    <div class="route-section code-section">
         <h2>Full Example</h2>
         <pre><code class="rust">use sandy::Server;
 use sandy::TemplateEngine;
@@ -126,7 +171,8 @@ fn main() {
     let mut server = Server::new();
 
     server.route("/", |_, _, _, _| {
-        Ok("HTTP/1.1 200 OK\n\nHello, sandy".to_string())
+        Ok("HTTP/1.1 200 OK\n\nHello, sandy
+".to_string())
     });
 
     server.route("/get", |_, params, method, _| {
@@ -146,8 +192,7 @@ fn main() {
             Err("HTTP/1.1 405 METHOD NOT ALLOWED\n\nMethod Not Allowed".to_string())
         }
     });
-
-    // all template files write it in "templates" folder
+    
     server.route("/render_template", |_, _, _, _| {
         let context: HashMap<_, _> = [("var", "value")].iter().cloned().collect();
         match TemplateEngine::render_template("template.html", &context) {
@@ -163,20 +208,31 @@ fn main() {
         Ok(format!("HTTP/1.1 200 OK\n\n{}", rendered))
     });
 
-    // if you wanna add CSS files to your project, just include those files in your code like you would any other route
+    // If you wanna add CSS files to your project, just include those files in your code like you would any other route
     
     server.run("0.0.0.0", "8080");
 }
-</code></pre>
+</code><button class="copy-button" onclick="copyCode(this.previousElementSibling)">Copy</button></pre>
     </div>
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.3.1/highlight.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.8/clipboard.min.js"></script>
     <script>
         document.addEventListener('DOMContentLoaded', (event) => {
             document.querySelectorAll('code.rust').forEach((block) => {
                 hljs.highlightBlock(block);
             });
         });
+
+        function copyCode(element) {
+            var text = element.innerText;
+            var temp = document.createElement('textarea');
+            temp.value = text;
+            document.body.appendChild(temp);
+            temp.select();
+            document.execCommand('copy');
+            document.body.removeChild(temp);
+        }
     </script>
 </body>
 
