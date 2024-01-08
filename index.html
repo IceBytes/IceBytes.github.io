@@ -144,7 +144,6 @@ context.insert("name", "Just Ice");
 
 let rendered = TemplateEngine::render_template("template.html", &context);
 </code><button class="copy-button" onclick="copyCode(this.previousElementSibling)">Copy</button></pre>
-
         <h3>Render Usage</h3>
         <pre><code class="rust">let template = "<p>Hello, {{ name }}!</p>";
 let rendered = TemplateEngine::render(template, &context);
@@ -210,7 +209,7 @@ fn main() {
         Ok(format!("HTTP/1.1 200 OK\n\n{}", rendered))
     });
 
-    // If you wanna add CSS files to your project, just include those files in your code like you would any other route
+    // If you wanna add CSS files to your project, just include those files in your code like you would any other route.
     
     server.run("0.0.0.0", "8080");
 }
