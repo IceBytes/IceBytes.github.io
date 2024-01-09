@@ -192,6 +192,28 @@ let rendered = TemplateEngine::render_template("template.html", &context);
     </div>
 
     <div class="route-section code-section">
+        <h2>Static Routes</h2>
+        <pre><code class="rust">server.static_route("/", "<html><body><h1>Welcome to Sandy!</h1></body></html>");
+</code><button class="copy-button" onclick="copyCode(this.previousElementSibling)">Copy</button></pre>
+    </div>
+
+    <div class="route-section code-section">
+        <h2>Sitemap</h2>
+        <h3>To add a custom dynamic route to sitemap</h3>
+        <pre><code class="rust">let ip = "127.0.0.1";
+let port = "8080";
+server.add_route_to_sitemap("/about", true, "daily", 0.5, &format!("http://{}:{}", ip, port));
+</code><button class="copy-button" onclick="copyCode(this.previousElementSibling)">Copy</button></pre>
+
+        <h3>To add all static routes to sitemap</h3>
+        <pre><code class="rust">server.add_route_to_sitemap("/", true, "daily", 0.8, "https://example.com");
+server.add_route_to_sitemap("/about", true, "monthly", 0.5, "https://example.com");
+
+server.generate_sitemap(true, true, "daily", 0.7, "https://example.com");
+</code><button class="copy-button" onclick="copyCode(this.previousElementSibling)">Copy</button></pre>
+    </div>
+    
+    <div class="route-section code-section">
         <h3>Render Usage</h3>
         <pre><code class="rust">let template = "<p>Hello, {{ name }}!</p>";
 let rendered = TemplateEngine::render(template, &context);
