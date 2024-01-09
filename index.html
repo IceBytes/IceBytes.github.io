@@ -14,9 +14,9 @@
         }
 
         body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
             background-color: #1e1e1e;
             color: #abb2bf;
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
             margin: 0;
             padding: 20px;
             line-height: 1.6;
@@ -26,6 +26,47 @@
             color: #61afef;
             border-bottom: 1px solid #444c56;
             padding-bottom: 10px;
+            margin-bottom: 20px;
+            font-size: 36px;
+        }
+
+        .route-section {
+            background-color: #333;
+            border: 1px solid #444c56;
+            padding: 20px;
+            border-radius: 10px;
+            margin-bottom: 30px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            transition: box-shadow 0.3s ease;
+        }
+
+        .route-section:hover {
+            box-shadow: 0 8px 12px rgba(0, 0, 0, 0.2);
+            transform: translateY(-5px);
+        }
+
+        .copy-button {
+            background-color: #61afef;
+            color: #fff;
+            border: none;
+            padding: 8px 15px;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: transform 0.2s ease, opacity 0.2s ease;
+        }
+
+        .copy-button:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+        }
+
+        pre code {
+            display: block;
+            background-color: #282c34;
+            padding: 15px;
+            border-radius: 10px;
+            overflow-x: auto;
+            font-size: 16px;
         }
 
         code {
@@ -35,73 +76,44 @@
             border-radius: 3px;
         }
 
+        h2 {
+            font-size: 28px;
+            margin-bottom: 15px;
+            transition: transform 0.3s ease;
+        }
+
+        h3 {
+            font-size: 22px;
+            margin-top: 15px;
+            margin-bottom: 10px;
+            transition: transform 0.3s ease;
+        }
+
         pre {
-            background-color: #2b2b2b;
-            color: #abb2bf;
-            padding: 10px;
-            border-radius: 5px;
-            overflow-x: auto;
             position: relative;
+            margin-bottom: 20px;
         }
 
         .copy-button {
             position: absolute;
             top: 10px;
             right: 10px;
-            padding: 5px 10px;
-            background-color: #444;
-            border: none;
-            color: #abb2bf;
-            border-radius: 5px;
-            cursor: pointer;
-            font-size: 14px;
-            transition: transform 0.2s ease;
             opacity: 0;
+            transition: opacity 0.3s ease;
         }
 
-        .code-section:hover .copy-button {
-            transform: translateY(-5px);
+        pre:hover .copy-button {
             opacity: 1;
         }
 
-        .route-section {
-            margin-top: 20px;
-            border: 1px solid #444c56;
-            padding: 10px;
-            border-radius: 5px;
-            position: relative;
-            margin-bottom: 30px;
-            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-            transition: box-shadow 0.3s ease;
+        h1 {
+            font-size: 36px;
+            margin-bottom: 20px;
         }
 
-        .route-section:hover {
-            box-shadow: 0 8px 12px rgba(0, 0, 0, 0.2);
-        }
-
-        .response-ok {
-            color: #98c379;
-        }
-
-        .response-err {
-            color: #e06c75;
-        }
-
-        .route-section {
-            transition: box-shadow 0.3s ease, transform 0.3s ease;
-        }
-
-        .route-section:hover {
-            box-shadow: 0 8px 12px rgba(0, 0, 0, 0.2);
-            transform: translateY(-2px);
-        }
-
-        .copy-button {
-            transition: transform 0.2s ease, opacity 0.2s ease;
-        }
-
-        .copy-button:hover {
-            transform: translateY(-3px);
+        h2:hover,
+        h3:hover {
+            transform: scale(1.05);
         }
     </style>
 </head>

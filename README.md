@@ -8,6 +8,8 @@ Sandy is a Rust library that provides a simple HTTP server and a template render
 - [Routing with Slugs](#routing-with-slugs)
 - [Handling Different HTTP Request Types](#handling-different-http-request-types)
 - [Template Engine Usage](#template-engine-usage)
+- [Sitemap](#sitemap)
+- [Static Routes](#static-routes)
 - [Full Example](#full-example)
 
 ## Server Usage
@@ -131,7 +133,6 @@ server.add_route_to_sitemap("/about", true, "monthly", 0.5, "https://example.com
 server.generate_sitemap(true, true, "daily", 0.7, "https://example.com");
 ```
 
-
 ## Static Routes
 
 You can serve static content by defining static routes. For example, serving a static HTML file:
@@ -195,4 +196,5 @@ fn main() {
 
     server.run("0.0.0.0", "8080");
 }
+
 ```
