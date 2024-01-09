@@ -7,6 +7,12 @@
     <title>Sandy Documentation</title>
     <link href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.3.1/styles/atom-one-dark.min.css" rel="stylesheet">
     <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
         body {
             background-color: #1e1e1e;
             color: #abb2bf;
@@ -80,6 +86,23 @@
         .response-err {
             color: #e06c75;
         }
+
+        .route-section {
+            transition: box-shadow 0.3s ease, transform 0.3s ease;
+        }
+
+        .route-section:hover {
+            box-shadow: 0 8px 12px rgba(0, 0, 0, 0.2);
+            transform: translateY(-2px);
+        }
+
+        .copy-button {
+            transition: transform 0.2s ease, opacity 0.2s ease;
+        }
+
+        .copy-button:hover {
+            transform: translateY(-3px);
+        }
     </style>
 </head>
 
@@ -89,6 +112,7 @@
     <div class="route-section code-section">
         <h2>Server Usage</h2>
         <pre><code class="rust">use sandy::Server;
+
 let mut server = Server::new();
 </code><button class="copy-button" onclick="copyCode(this.previousElementSibling)">Copy</button></pre>
     </div>
@@ -113,7 +137,9 @@ server.run(ip, port);
     }
 });
 </code><button class="copy-button" onclick="copyCode(this.previousElementSibling)">Copy</button></pre>
+    </div>
 
+    <div class="route-section code-section">
         <h3>Handling Routes without Slugs</h3>
         <pre><code class="rust">server.route("/articles", |path, params, method, data| {
     if method == "GET" {
@@ -137,7 +163,9 @@ server.run(ip, port);
     }
 });
 </code><button class="copy-button" onclick="copyCode(this.previousElementSibling)">Copy</button></pre>
+    </div>
 
+    <div class="route-section code-section">
         <h3>POST Request</h3>
         <pre><code class="rust">server.route("/post/:data", |_, _, method, data| {
     if method == "POST" {
@@ -161,6 +189,9 @@ context.insert("name", "Just Ice");
 
 let rendered = TemplateEngine::render_template("template.html", &context);
 </code><button class="copy-button" onclick="copyCode(this.previousElementSibling)">Copy</button></pre>
+    </div>
+
+    <div class="route-section code-section">
         <h3>Render Usage</h3>
         <pre><code class="rust">let template = "<p>Hello, {{ name }}!</p>";
 let rendered = TemplateEngine::render(template, &context);
@@ -171,10 +202,14 @@ let rendered = TemplateEngine::render(template, &context);
         <h2>Response</h2>
         <pre><code class="rust">Ok("HTTP/1.1 200 OK\n\nHello, sandy".to_string())
 </code><button class="copy-button" onclick="copyCode(this.previousElementSibling)">Copy</button></pre>
+    </div>
 
+    <div class="route-section code-section">
         <pre><code class="rust">Err("HTTP/1.1 404 OK\n\nPath Not Found".to_string())
 </code><button class="copy-button" onclick="copyCode(this.previousElementSibling)">Copy</button></pre>
+    </div>
 
+    <div class="route-section code-section">
         <pre><code class="rust">Err("HTTP/1.1 405 METHOD NOT ALLOWED\n\nMethod Not Allowed".to_string())
 </code><button class="copy-button" onclick="copyCode(this.previousElementSibling)">Copy</button></pre>
     </div>
@@ -182,6 +217,7 @@ let rendered = TemplateEngine::render(template, &context);
     <div class="route-section code-section">
         <h2>Full Example</h2>
         <pre><code class="rust">use sandy::Server;
+use sandy::Server;
 use sandy::TemplateEngine;
 use std::collections::HashMap;
 
@@ -189,7 +225,7 @@ fn main() {
     let mut server = Server::new();
 
     server.route("/", |_, _, _, _| {
-        Ok("HTTP/1.1 200 OK\n\nHello, sandy".to_string())
+        Ok("HTTP/1.1 200 OK\n\nHello, Sandy!".to_string())
     });
 
     server.route("/get/:param", |_, params, method, _| {
@@ -209,7 +245,7 @@ fn main() {
             Err("HTTP/1.1 405 METHOD NOT ALLOWED\n\nMethod Not Allowed".to_string())
         }
     });
-    
+
     server.route("/render_template/:var", |_, _, _, _| {
         let context: HashMap<_, _> = [("var", "value")].iter().cloned().collect();
         match TemplateEngine::render_template("template.html", &context) {
@@ -224,6 +260,10 @@ fn main() {
         let rendered = TemplateEngine::render(template, &context);
         Ok(format!("HTTP/1.1 200 OK\n\n{}", rendered))
     });
+
+    server.static_route("/", "<html><body><h1>Welcome to Sandy!</h1></body></html>");
+
+    server.static_route("/about", "<html><body><h1>About Us</h1><p>This is the About Us page.</p></body></html>");
 
     server.run("0.0.0.0", "8080");
 }
@@ -252,7 +292,6 @@ fn main() {
                 element.classList.remove('show-copied');
             }, 1500);
         }
-
     </script>
 </body>
 
